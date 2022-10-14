@@ -60,17 +60,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d86b93f97252c47b41663388e6d155714a9d0c398b99f1005cbc5f978b29f445"
 
 [[package]]
-name = "bincode"
+name = "bincode-purplecoin"
 version = "2.0.0-rc.1"
-source = "git+https://github.com/purpleprotocol/bincode#f8944381f91701cfe372e6c91cf76cfe518ea341"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "039909151ce9ce10abda52953002c6d8eb47a3bbe5efe821af6020e8c9b8d09b"
 dependencies = [
  "bincode_derive",
 ]
 
 [[package]]
 name = "bincode_derive"
-version = "2.0.0-rc.1"
-source = "git+https://github.com/purpleprotocol/bincode#f8944381f91701cfe372e6c91cf76cfe518ea341"
+version = "2.0.0-rc.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0a45a23389446d2dd25dc8e73a7a3b3c43522b630cac068927f0649d43d719d2"
 dependencies = [
  "virtue",
 ]
@@ -428,7 +430,7 @@ version = "0.0.1"
 dependencies = [
  "argon2rs",
  "bech32",
- "bincode",
+ "bincode-purplecoin",
  "blake3",
  "chacha20poly1305",
  "clap",
@@ -437,7 +439,7 @@ dependencies = [
  "rand",
  "rand_chacha",
  "rpassword",
- "schnorrkel",
+ "schnorrkel-purplecoin",
  "zeroize",
 ]
 
@@ -499,9 +501,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4501abdff3ae82a1c1b477a17252eb69cee9e66eb915c1abaa4f44d873df9f09"
 
 [[package]]
-name = "schnorrkel"
+name = "schnorrkel-purplecoin"
 version = "0.10.2"
-source = "git+https://github.com/purpleprotocol/schnorrkel#5ecab41242b30e2281d2c9cddf4a9cd74cf0ee0d"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e35d75f5899acb7f46ba6926081984b5c3ae471288f6b6a0c1d39de36d20e7aa"
 dependencies = [
  "arrayref",
  "arrayvec 0.7.2",
@@ -659,9 +662,9 @@ checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
 
 [[package]]
 name = "virtue"
-version = "0.0.7"
+version = "0.0.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "757cfbfe0d17ee6f22fe97e536d463047d451b47cf9d11e2b7d1398b0ef274dd"
+checksum = "7b60dcd6a64dd45abf9bd426970c9843726da7fc08f44cd6fcebf68c21220a63"
 
 [[package]]
 name = "wasi"

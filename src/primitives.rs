@@ -5,10 +5,10 @@
 // LICENSE-MIT or http://opensource.org/licenses/MIT
 
 use bech32::{self, FromBase32, ToBase32, Variant};
-use bincode::{Decode, Encode};
+use bincode_purplecoin::{Decode, Encode};
 use lazy_static::*;
-use schnorrkel::PublicKey as SchnorrPubKey;
-use schnorrkel::Signature as SchnorrSignature;
+use schnorrkel_purplecoin::PublicKey as SchnorrPubKey;
+use schnorrkel_purplecoin::Signature as SchnorrSignature;
 use std::convert::From;
 use std::fmt;
 use std::hash::Hash as HashTrait;
@@ -154,22 +154,22 @@ impl PublicKey {
 }
 
 impl Encode for PublicKey {
-    fn encode<E: bincode::enc::Encoder>(
+    fn encode<E: bincode_purplecoin::enc::Encoder>(
         &self,
         encoder: &mut E,
-    ) -> core::result::Result<(), bincode::error::EncodeError> {
-        bincode::Encode::encode(&self.0.to_bytes(), encoder)?;
+    ) -> core::result::Result<(), bincode_purplecoin::error::EncodeError> {
+        bincode_purplecoin::Encode::encode(&self.0.to_bytes(), encoder)?;
         Ok(())
     }
 }
 
 impl Decode for PublicKey {
-    fn decode<D: bincode::de::Decoder>(
+    fn decode<D: bincode_purplecoin::de::Decoder>(
         decoder: &mut D,
-    ) -> core::result::Result<Self, bincode::error::DecodeError> {
-        let pk_bytes: [u8; schnorrkel::PUBLIC_KEY_LENGTH] = bincode::Decode::decode(decoder)?;
+    ) -> core::result::Result<Self, bincode_purplecoin::error::DecodeError> {
+        let pk_bytes: [u8; schnorrkel_purplecoin::PUBLIC_KEY_LENGTH] = bincode_purplecoin::Decode::decode(decoder)?;
         let result = SchnorrPubKey::from_bytes(&pk_bytes).map_err(|_| {
-            bincode::error::DecodeError::OtherString("invalid public key format".to_owned())
+            bincode_purplecoin::error::DecodeError::OtherString("invalid public key format".to_owned())
         })?;
         Ok(Self(result))
     }
@@ -179,22 +179,22 @@ impl Decode for PublicKey {
 pub struct Signature(pub SchnorrSignature);
 
 impl Encode for Signature {
-    fn encode<E: bincode::enc::Encoder>(
+    fn encode<E: bincode_purplecoin::enc::Encoder>(
         &self,
         encoder: &mut E,
-    ) -> core::result::Result<(), bincode::error::EncodeError> {
-        bincode::Encode::encode(&self.0.to_bytes(), encoder)?;
+    ) -> core::result::Result<(), bincode_purplecoin::error::EncodeError> {
+        bincode_purplecoin::Encode::encode(&self.0.to_bytes(), encoder)?;
         Ok(())
     }
 }
 
 impl Decode for Signature {
-    fn decode<D: bincode::de::Decoder>(
+    fn decode<D: bincode_purplecoin::de::Decoder>(
         decoder: &mut D,
-    ) -> core::result::Result<Self, bincode::error::DecodeError> {
-        let pk_bytes: [u8; schnorrkel::SIGNATURE_LENGTH] = bincode::Decode::decode(decoder)?;
+    ) -> core::result::Result<Self, bincode_purplecoin::error::DecodeError> {
+        let pk_bytes: [u8; schnorrkel_purplecoin::SIGNATURE_LENGTH] = bincode_purplecoin::Decode::decode(decoder)?;
         let result = SchnorrSignature::from_bytes(&pk_bytes).map_err(|_| {
-            bincode::error::DecodeError::OtherString("invalid signature format".to_owned())
+            bincode_purplecoin::error::DecodeError::OtherString("invalid signature format".to_owned())
         })?;
         Ok(Self(result))
     }
