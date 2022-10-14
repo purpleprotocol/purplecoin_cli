@@ -1,8 +1,0 @@
-/target
-/Cargo.lock
-*.swp
-*.swo
-.cargo
-.vscode
-rls*.log
-tarpaulin-report.html

@@ -1,16 +1,16 @@
 [package]
 name = "purplecoincli"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 zeroize = { version = "1.4.3", features = ["zeroize_derive"] }
-schnorrkel = { path = "./vendor/schnorrkel" }
+schnorrkel = { git = "https://github.com/purpleprotocol/schnorrkel" }
 blake3 = "1.3.1"
 argon2rs = "0.2.5"
-bincode = { path = "./vendor/bincode" }
+bincode = { git = "https://github.com/purpleprotocol/bincode" }
 lazy_static = "1.4.0"
 bech32 = "0.9.0"
 rand = "0.8.5"

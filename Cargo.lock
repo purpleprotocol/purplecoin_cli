@@ -62,6 +62,7 @@ checksum = "d86b93f97252c47b41663388e6d155714a9d0c398b99f1005cbc5f978b29f445"
 [[package]]
 name = "bincode"
 version = "2.0.0-rc.1"
+source = "git+https://github.com/purpleprotocol/bincode#f8944381f91701cfe372e6c91cf76cfe518ea341"
 dependencies = [
  "bincode_derive",
 ]
@@ -69,6 +70,7 @@ dependencies = [
 [[package]]
 name = "bincode_derive"
 version = "2.0.0-rc.1"
+source = "git+https://github.com/purpleprotocol/bincode#f8944381f91701cfe372e6c91cf76cfe518ea341"
 dependencies = [
  "virtue",
 ]
@@ -422,7 +424,7 @@ dependencies = [
 
 [[package]]
 name = "purplecoincli"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "argon2rs",
  "bech32",
@@ -499,6 +501,7 @@ checksum = "4501abdff3ae82a1c1b477a17252eb69cee9e66eb915c1abaa4f44d873df9f09"
 [[package]]
 name = "schnorrkel"
 version = "0.10.2"
+source = "git+https://github.com/purpleprotocol/schnorrkel#5ecab41242b30e2281d2c9cddf4a9cd74cf0ee0d"
 dependencies = [
  "arrayref",
  "arrayvec 0.7.2",
