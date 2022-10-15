@@ -58,7 +58,8 @@ pub fn gen_encrypted_simple_wallet(passphrase: &str, batch_size: u64) -> Vec<(St
             let mut next_internal = master_keypair_internal.derive_next();
             master_keypair_internal = next_internal.clone();
             let address = next_internal.pub_key().to_address().to_bech32("pu");
-            let encrypted_key = hex::encode(next_internal.secret_key.secret_key);
+            let encrypted_entry = EncryptedEntry::xchacha20poly1305(&pass_hash, next_internal.secret_key.secret_key).unwrap();
+            let encrypted_key = hex::encode(encrypted_entry.to_bytes());
 
             next_internal.zeroize();
             (address, encrypted_key)
@@ -307,5 +308,13 @@ impl<T: Encode + Decode> EncryptedEntry<T> {
                 unimplemented!();
             }
         }
+    }
+
+    pub fn to_bytes(&self) -> Vec<u8> {
+        let config = bincode::config::standard()
+            .with_little_endian()
+            .with_variable_int_encoding()
+            .skip_fixed_array_length();
+        bincode::encode_to_vec(self, config).unwrap()
     }
 }
