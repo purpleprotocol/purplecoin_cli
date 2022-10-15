@@ -3,7 +3,7 @@ Only includes a commmand to generate a simple encrypted wallet consisting of an 
 
 ### Instalation
 ```
-cargo install purplecoin
+cargo install purplecoincli
 ```
 
 ### Usage
