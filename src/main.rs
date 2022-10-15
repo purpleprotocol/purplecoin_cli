@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0 or the MIT license, see
 // LICENSE-MIT or http://opensource.org/licenses/MIT
 
-use crate::wallet::gen_encrypted_simple_wallet;
+use purplecoincli::wallet::gen_encrypted_simple_wallet;
 use clap::{Parser, Subcommand};
 use zeroize::Zeroize;
 
@@ -69,6 +69,3 @@ fn main() {
         }
     }
 }
-
-mod primitives;
-mod wallet;
