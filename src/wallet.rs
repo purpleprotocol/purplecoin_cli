@@ -29,7 +29,6 @@ pub fn gen_encrypted_simple_wallet(passphrase: &str, batch_size: u64) -> Vec<(St
         seed[i] = rng.gen();
     }
 
-    // Copied from the HDWallet generation code. TODO: Maybe we can generate a simple wallet in a less complex way.
     let mut encryption_key: [u8; 32] = rng.gen();
     let salt: [u8; 32] = rng.gen();
 
