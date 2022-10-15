@@ -2,6 +2,8 @@
 name = "purplecoincli"
 version = "0.0.1"
 edition = "2021"
+license = "MIT or Apache-2.0"
+description = "Purplecoin CLI tools"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
