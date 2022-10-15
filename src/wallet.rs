@@ -22,18 +22,8 @@ const SEED_BYTES: usize = 64;
 /// 
 /// Returns them as a tuple of two strings.
 pub fn gen_encrypted_simple_wallet(passphrase: &str, batch_size: u64) -> Vec<(String, String)> {
-    // Generate random 64 byte seed
-    let mut rng = rand::thread_rng();
-    let mut seed: [u8; SEED_BYTES] = [0; SEED_BYTES];
-    for i in 0..SEED_BYTES {
-        seed[i] = rng.gen();
-    }
-
-    let mut encryption_key: [u8; 32] = rng.gen();
-    let salt: [u8; 32] = rng.gen();
-
     // Calculate argon2 hash from random seed
-    let mut pass_hash = argon2rs::argon2d_simple(&hex::encode(seed), &hex::encode(salt));
+    let pass_hash = argon2rs::argon2d_simple(passphrase, "purplecoin.default.salt");
 
     // Transform argon2 hash into a 512bit output
     let mut pass_hash512 = [0; 64];
@@ -55,25 +45,7 @@ pub fn gen_encrypted_simple_wallet(passphrase: &str, batch_size: u64) -> Vec<(St
     let mut out = hasher.finalize_xof();
     out.fill(&mut master_priv_hash512);
 
-    // Calculate argon2 hash from random seed
-    let mut pass_hash = argon2rs::argon2d_simple(&hex::encode(seed), &hex::encode(salt));
-
-    // Transform argon2 hash into a 512bit output
-    let mut pass_hash512 = [0; 64];
-    let mut hasher = blake3::Hasher::new();
-    hasher.update(&pass_hash);
-    let mut out = hasher.finalize_xof();
-    out.fill(&mut pass_hash512);
-
     let master_internal_priv_key = &master_priv_hash512[..32];
-
-    // Calculate passphrase argon2 hash
-    let mut passphrase_hash = argon2rs::argon2d_simple(passphrase, &hex::encode(salt));
-    let mut passphrase_hash256 = [0; 32];
-    let mut hasher = blake3::Hasher::new();
-    hasher.update(&passphrase_hash);
-    let mut out = hasher.finalize_xof();
-    out.fill(&mut passphrase_hash256);
 
     let mut master_keypair_internal = XKeypair::new_master(
         master_internal_priv_key,
@@ -95,14 +67,7 @@ pub fn gen_encrypted_simple_wallet(passphrase: &str, batch_size: u64) -> Vec<(St
             (address, encrypted_key)
         }).collect();
 
-    
-
-    seed.zeroize();
-    encryption_key.zeroize();
-    pass_hash.zeroize();
     pass_hash512.zeroize();
-    passphrase_hash.zeroize();
-    passphrase_hash256.zeroize();
     master_priv_hash512.zeroize();
     master_keypair_internal.zeroize();
 
