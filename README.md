@@ -12,3 +12,8 @@ cargo install purplecoincli
 purplecoincli gen-simple-wallet
 purplecoincli gen-simple-wallet-batch 100
 ```
+
+[crates.io]: https://crates.io/crates/purplecoincli
+[Latest Version]: https://img.shields.io/crates/v/purplecoincli.svg
+[Documentation]: https://docs.rs/purplecoincli/badge.svg
+[docs.rs]: https://docs.rs/purplecoincli
