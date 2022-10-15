@@ -5,7 +5,7 @@
 // LICENSE-MIT or http://opensource.org/licenses/MIT
 
 use crate::primitives::{Address, PublicKey};
-use bincode_purplecoin::{Decode, Encode};
+use bincode::{Decode, Encode};
 use schnorrkel_purplecoin::derive::{ChainCode, ExtendedKey};
 use schnorrkel_purplecoin::keys::{ExpansionMode, MiniSecretKey};
 use schnorrkel_purplecoin::SecretKey as SchnorrSecretKey;
@@ -291,11 +291,11 @@ impl<T: Encode + Decode> fmt::Debug for EncryptedEntry<T> {
 impl<T: Encode + Decode> EncryptedEntry<T> {
     /// Creates an encrypted entry from data with key using XChacha20Poly1305
     pub fn xchacha20poly1305(key: &[u8], data: T) -> Result<Self, &'static str> {
-        let config = bincode_purplecoin::config::standard()
+        let config = bincode::config::standard()
             .with_little_endian()
             .with_variable_int_encoding()
             .skip_fixed_array_length();
-        let mut data = bincode_purplecoin::encode_to_vec(data, config).unwrap();
+        let mut data = bincode::encode_to_vec(data, config).unwrap();
         let mut rng = rand::thread_rng();
         let key = Key::from_slice(key);
         let cipher = XChaCha20Poly1305::new(key);
@@ -323,7 +323,7 @@ impl<T: Encode + Decode> EncryptedEntry<T> {
 
     /// Decrypts the ciphertext using the provided key
     pub fn decrypt(&self, key: &[u8]) -> Result<T, &'static str> {
-        let config = bincode_purplecoin::config::standard()
+        let config = bincode::config::standard()
             .with_little_endian()
             .with_variable_int_encoding()
             .skip_fixed_array_length();

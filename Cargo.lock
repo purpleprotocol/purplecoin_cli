@@ -60,19 +60,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d86b93f97252c47b41663388e6d155714a9d0c398b99f1005cbc5f978b29f445"
 
 [[package]]
-name = "bincode-purplecoin"
+name = "bincode"
 version = "2.0.0-rc.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f3add30c1fb8bceddb26f450a176bd702bbf95461b634628b49cf8ddeae4786"
+checksum = "7bb50c5a2ef4b9b1e7ae73e3a73b52ea24b20312d629f9c4df28260b7ad2c3c4"
 dependencies = [
- "bincode_derive_purplecoin",
+ "bincode_derive",
+ "serde",
 ]
 
 [[package]]
-name = "bincode_derive_purplecoin"
-version = "2.0.0-rc.1"
+name = "bincode_derive"
+version = "2.0.0-rc.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ae4707a96d3589694a19532788c0886bb5ada6f78f868882072d307d1addcd34"
+checksum = "0a45a23389446d2dd25dc8e73a7a3b3c43522b630cac068927f0649d43d719d2"
 dependencies = [
  "virtue",
 ]
@@ -430,7 +431,7 @@ version = "0.0.1"
 dependencies = [
  "argon2rs",
  "bech32",
- "bincode-purplecoin",
+ "bincode",
  "blake3",
  "chacha20poly1305",
  "clap",
@@ -662,9 +663,9 @@ checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
 
 [[package]]
 name = "virtue"
-version = "0.0.7"
+version = "0.0.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "757cfbfe0d17ee6f22fe97e536d463047d451b47cf9d11e2b7d1398b0ef274dd"
+checksum = "7b60dcd6a64dd45abf9bd426970c9843726da7fc08f44cd6fcebf68c21220a63"
 
 [[package]]
 name = "wasi"
