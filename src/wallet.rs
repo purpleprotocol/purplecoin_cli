@@ -16,13 +16,10 @@ use std::marker::PhantomData;
 use std::fmt;
 use zeroize::Zeroize;
 
-const SEED_BYTES: usize = 64;
-
 /// Generates simple wallets consisting of an Address and encrypted private key.
 /// 
 /// Returns them as a tuple of two strings.
 pub fn gen_encrypted_simple_wallet(passphrase: &str, batch_size: u64) -> Vec<(String, String)> {
-    // Calculate argon2 hash from random seed
     let pass_hash = argon2rs::argon2d_simple(passphrase, "purplecoin.default.salt");
 
     // Transform argon2 hash into a 512bit output
