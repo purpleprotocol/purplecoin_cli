@@ -9,4 +9,5 @@ cargo install purplecoin
 ### Usage
 ```
 purplecoincli gen-simple-wallet
+purplecoincli gen-simple-wallet-batch 100
 ```
