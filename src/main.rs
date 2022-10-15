@@ -20,14 +20,13 @@ struct Cli {
 enum Commands {
     /// Generate a simple encrypted wallet and print it to the screen
     GenSimpleWallet,
+    GenSimpleWalletBatch { batch_size: u64 },
 }
 
 
 fn main() {
     let cli = Cli::parse();
 
-    // You can check for the existence of subcommands, and if found use their
-    // matches just as you would the top level cmd
     match &cli.command {
         Some(Commands::GenSimpleWallet) => {
             let mut password = rpassword::prompt_password("Your password: ").unwrap();
@@ -38,11 +37,32 @@ fn main() {
                 return;
             }
 
-            let (address, encrypted_key) = gen_encrypted_simple_wallet(&password);
+            let addresses = gen_encrypted_simple_wallet(&password, 1);
             password.zeroize();
             confirm_password.zeroize();
-            println!("Your address is: {}", address);
-            println!("Your encrypted key is: {}", encrypted_key);
+            println!("Your address is: {}", addresses[0].0);
+            println!("Your encrypted key is: {}", addresses[0].1);
+        }
+        Some(Commands::GenSimpleWalletBatch { batch_size }) => {
+            if batch_size > &100_000 {
+                println!("Max batch size is 100,000!");
+                return;
+            }
+
+            let mut password = rpassword::prompt_password("Your password: ").unwrap();
+            let mut confirm_password = rpassword::prompt_password("Your password confirmation: ").unwrap();
+
+            if password != confirm_password {
+                println!("Password does not match password confirmation!");
+                return;
+            }
+
+            let batch = gen_encrypted_simple_wallet(&password, *batch_size);
+            password.zeroize();
+            confirm_password.zeroize();
+            for (address, encrypted_key) in batch.iter() {
+                println!("{} {}", address, encrypted_key);
+            }
         }
         None => {
             println!("No command given. Type \"purplecoincli help\" for a list of commands.")

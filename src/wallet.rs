@@ -18,10 +18,10 @@ use zeroize::Zeroize;
 
 const SEED_BYTES: usize = 64;
 
-/// Generates a simple wallet consisting of an Address and encrypted private key.
+/// Generates simple wallets consisting of an Address and encrypted private key.
 /// 
 /// Returns them as a tuple of two strings.
-pub fn gen_encrypted_simple_wallet(passphrase: &str) -> (String, String) {
+pub fn gen_encrypted_simple_wallet(passphrase: &str, batch_size: u64) -> Vec<(String, String)> {
     // Generate random 64 byte seed
     let mut rng = rand::thread_rng();
     let mut seed: [u8; SEED_BYTES] = [0; SEED_BYTES];
@@ -84,9 +84,19 @@ pub fn gen_encrypted_simple_wallet(passphrase: &str) -> (String, String) {
         0x000000,
     );
 
-    let mut next_internal = master_keypair_internal.derive_next();
-    let address = next_internal.pub_key().to_address().to_bech32("pu");
-    let encrypted_key = hex::encode(next_internal.secret_key.secret_key);
+    let batch = (0..batch_size)
+        .into_iter()
+        .map(|_| {
+            let mut next_internal = master_keypair_internal.derive_next();
+            master_keypair_internal = next_internal.clone();
+            let address = next_internal.pub_key().to_address().to_bech32("pu");
+            let encrypted_key = hex::encode(next_internal.secret_key.secret_key);
+
+            next_internal.zeroize();
+            (address, encrypted_key)
+        }).collect();
+
+    
 
     seed.zeroize();
     encryption_key.zeroize();
@@ -96,9 +106,8 @@ pub fn gen_encrypted_simple_wallet(passphrase: &str) -> (String, String) {
     passphrase_hash256.zeroize();
     master_priv_hash512.zeroize();
     master_keypair_internal.zeroize();
-    next_internal.zeroize();
 
-    (address, encrypted_key)
+    batch
 
 }
 
@@ -195,7 +204,7 @@ pub struct XPriv {
     secret_key: [u8; 64],
 }
 
-#[derive(Encode, Decode, Zeroize, Debug)]
+#[derive(Encode, Decode, Zeroize, Debug, Clone)]
 pub struct XKeypair {
     pub pub_key: XPub,
     pub secret_key: XPriv,
