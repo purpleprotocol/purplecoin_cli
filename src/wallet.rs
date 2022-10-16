@@ -267,7 +267,7 @@ impl<T: Encode + Decode> EncryptedEntry<T> {
             .with_variable_int_encoding()
             .skip_fixed_array_length();
         let mut data = bincode::encode_to_vec(data, config).unwrap();
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rngs::OsRng;
         let key = Key::from_slice(key);
         let cipher = XChaCha20Poly1305::new(key);
         let nonce_bytes: [u8; 24] = rng.gen();
