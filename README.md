@@ -4,6 +4,8 @@
 Only includes a commmand to generate a simple encrypted wallet consisting of an Address and a private key or a batch of them. More commands will be added soon as needed.
 
 ### Instalation
+Before installation make sure to have [Cargo and Rust](https://www.rust-lang.org/tools/install) installed. Then run:
+
 ```
 cargo install purplecoincli
 ```
