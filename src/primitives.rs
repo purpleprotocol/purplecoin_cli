@@ -110,6 +110,10 @@ impl PublicKey {
         ))
     }
 
+    pub fn to_bytes(&self) -> [u8; 32] {
+        self.0.to_bytes()
+    }
+
     pub fn zero() -> Self {
         let bytes = vec![0; 32];
         Self::from_bytes(&bytes).unwrap()

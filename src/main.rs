@@ -29,6 +29,7 @@ fn main() {
 
     match &cli.command {
         Some(Commands::GenSimpleWallet) => {
+            println!("Choose a password to encrypt your private key with...");
             let mut password = rpassword::prompt_password("Your password: ").unwrap();
             let mut confirm_password = rpassword::prompt_password("Your password confirmation: ").unwrap();
 
@@ -40,10 +41,14 @@ fn main() {
             let addresses = gen_encrypted_simple_wallet(&password, 1);
             password.zeroize();
             confirm_password.zeroize();
-            println!("Your address is: {}", addresses[0].0);
-            println!("Your encrypted key is: {}", addresses[0].1);
+            println!("Address: {}", addresses[0].0);
+            println!("Keypair is: {}\n", addresses[0].1);
+            println!("These are safe to store on a computer connected to the internet, assuming no malware was present during generation.");
+            println!("In order to safely reuse the address, make sure to spend any coins from an airgapped machine.\n");
+            println!("Warning: Forgetting the chosen password or losing the keypair will result in losing your coins. Make sure to keep them safe.");
         }
         Some(Commands::GenSimpleWalletBatch { batch_size }) => {
+            println!("Choose a password to encrypt your private key with...");
             if batch_size > &100_000 {
                 println!("Max batch size is 100,000!");
                 return;
@@ -61,8 +66,11 @@ fn main() {
             password.zeroize();
             confirm_password.zeroize();
             for (address, encrypted_key) in batch.iter() {
-                println!("{} {}", address, encrypted_key);
+                println!("\nAddress: {}\nKeypair: {}", address, encrypted_key);
             }
+            println!("\nThese are safe to store on a computer connected to the internet, assuming no malware was present during generation.");
+            println!("In order to safely reuse the address, make sure to spend any coins from an airgapped machine.\n");
+            println!("Warning: Forgetting the chosen password or losing the keypair will result in losing your coins. Make sure to keep them safe.");
         }
         None => {
             println!("No command given. Type \"purplecoincli help\" for a list of commands.")

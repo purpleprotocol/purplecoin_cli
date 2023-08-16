@@ -57,9 +57,14 @@ pub fn gen_encrypted_simple_wallet(passphrase: &str, batch_size: u64) -> Vec<(St
         .map(|_| {
             let mut next_internal = master_keypair_internal.derive_next();
             master_keypair_internal = next_internal.clone();
-            let address = next_internal.pub_key().to_address().to_bech32("pu");
+            let mut buf = vec![];
+            let pubkey = next_internal.pub_key();
+            let address = pubkey.to_address().to_bech32("pu");
             let encrypted_entry = EncryptedEntry::xchacha20poly1305(&pass_hash, next_internal.secret_key.secret_key).unwrap();
-            let encrypted_key = hex::encode(encrypted_entry.to_bytes());
+            buf.extend(pubkey.to_pubkey_bytes());
+            buf.extend(encrypted_entry.to_bytes());
+            
+            let encrypted_key = hex::encode(buf);
 
             next_internal.zeroize();
             (address, encrypted_key)
@@ -111,6 +116,10 @@ impl XPub {
 
     pub fn to_address(&self) -> Address {
         self.pub_key.to_address()
+    }
+
+    pub fn to_pubkey_bytes(&self) -> [u8; 32] {
+        self.pub_key.to_bytes()
     }
 }
 
