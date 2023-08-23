@@ -21,6 +21,7 @@ use zeroize::Zeroize;
 /// Returns them as a tuple of two strings.
 pub fn gen_encrypted_simple_wallet(passphrase: &str, batch_size: u64) -> Vec<(String, String)> {
     let pass_hash = argon2rs::argon2d_simple(passphrase, "purplecoin.default.salt");
+    let master_priv_key: [u8; 32] = thread_rng().gen();
 
     // Transform argon2 hash into a 512bit output
     let mut pass_hash512 = [0; 64];
@@ -30,8 +31,6 @@ pub fn gen_encrypted_simple_wallet(passphrase: &str, batch_size: u64) -> Vec<(St
     out.fill(&mut pass_hash512);
 
     let chain_code = &pass_hash512[32..];
-    let mut master_priv_key = [0; 32];
-    master_priv_key.copy_from_slice(&pass_hash512[..32]);
 
     // Calculate external and internal priv keys by transforming
     // the master priv key to a 512 bit output.

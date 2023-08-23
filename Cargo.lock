@@ -427,7 +427,7 @@ dependencies = [
 
 [[package]]
 name = "purplecoincli"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "argon2rs",
  "bech32",
